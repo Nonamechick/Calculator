@@ -16,7 +16,7 @@
                             <input 
                                 id="calc-display"
                                 readonly 
-                                class="form-control form-control-lg" 
+                                class="form-control form-control-lg text-end" 
                                 type="text" 
                                 aria-label=".form-control-lg example"
                             >
@@ -131,5 +131,45 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                const display = document.getElementById('calc-display');
+                const buttons = document.getElementsByClassName('btn');
+                console.log(display);
+                console.log(buttons);
+
+                let CurrentValue = "";
+
+                function evaluateResult() {
+                  const convertedValue = CurrentValue
+                  .replace("×","*")
+                  .replace("÷","/")
+                  .replace("%","*0.01");
+
+
+                  const result = eval(convertedValue);
+                  CurrentValue = result.toString();
+                  display.value = CurrentValue;
+                }
+
+                for (let i = 0; i < buttons.length; i++) {
+                  const button = buttons[i];
+                  button.addEventListener('click', function () {
+                    const value = button.innerText;
+
+                    if (value == "AC") {
+                      CurrentValue = "";
+                      display.value = CurrentValue;
+                    } else if (value == "=") {
+                      evaluateResult();
+                    } else {
+                      CurrentValue += value;
+                      console.log('currentValue:', CurrentValue);
+                      display.value = CurrentValue;
+                    } 
+                  });
+                }
+            });
+        </script>
     </body>
 </html>
